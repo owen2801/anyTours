@@ -1,0 +1,31 @@
+<ion-view view-title="Messages">
+  <ion-content>
+    <textarea readonly style="width:100%">{{regId}}</textarea>
+
+    <ion-list>
+        <ion-item ng-repeat="notification in notifications track by $index" type="item-content">
+            {{notification}}
+        </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item class="item-remove-animate" collection-repeat="message in messages" type="item-text-wrap" href="#/tab/message/{{message.id}}">
+      <!--
+        <img ng-src="{{message.face}}">
+      -->
+        <h2>{{message.topic}}</h2>
+        <!--
+        <i class="icon ion-chevron-right icon-accessory"></i>
+        -->
+
+        <ion-option-button class="button-assertive" ng-click="remove(message)" style="height:100%">
+          Delete
+        </ion-option-button>
+
+        <ion-option-button class="button-assertive" ng-click="get(message)" style="margin-left:10px;height:100%">
+          Get
+        </ion-option-button>
+
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
