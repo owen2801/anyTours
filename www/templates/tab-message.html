@@ -1,21 +1,20 @@
 <ion-view view-title="Messages">
-  <ion-content>
-    <textarea readonly style="width:100%">{{regId}}</textarea>
-
+  <ion-content padding="true">
+    <h1>Any Tours Travel Demo</h1>
     <ion-list>
-        <ion-item ng-repeat="notification in notifications track by $index" type="item-content">
-            {{notification}}
+        <ion-item class="item-remove-animate" ng-repeat="notification in notifications track by $index" type="item-content" onclick='window.open("http://hubbis.com", "_blank", "location=yes");return false'>
+            {{notification.alert}}
+
+            <ion-option-button class="button-assertive" ng-click="remove(notification)" style="height:100%">
+              Delete
+            </ion-option-button>
+
         </ion-item>
     </ion-list>
+    <!--
     <ion-list>
       <ion-item class="item-remove-animate" collection-repeat="message in messages" type="item-text-wrap" href="#/tab/message/{{message.id}}">
-      <!--
-        <img ng-src="{{message.face}}">
-      -->
         <h2>{{message.topic}}</h2>
-        <!--
-        <i class="icon ion-chevron-right icon-accessory"></i>
-        -->
 
         <ion-option-button class="button-assertive" ng-click="remove(message)" style="height:100%">
           Delete

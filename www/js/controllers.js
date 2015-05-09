@@ -1,9 +1,16 @@
 angular.module('starter.controllers', [])
 
+.controller('TabCtrl', function($scope) {
+  $scope.openBrowser = function () {
+    window.open("http://chinaspecialoffer.com", "_blank", "location=no,toolbar=yes,toolbarposition=bottom")
+  }
+})
+
 .controller('HomeCtrl', function($scope) {})
 
 .controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaAppVersion, $cordovaDevice , Messages, ionPlatform) {
   
+  /*
   $scope.messages = Messages.all();
   $scope.remove = function(message) {
     Messages.remove(message);
@@ -11,7 +18,7 @@ angular.module('starter.controllers', [])
   $scope.get = function(messageId) {
     Messages.get(messageId);
   }
-
+*/
   /*========== Push Notification Handler ==========*/
   $scope.notifications = [];
 
@@ -41,8 +48,10 @@ angular.module('starter.controllers', [])
       $cordovaPush.register(config).then(function (result) {
           console.log("Register success " + result);
 
+          /*
           $cordovaToast.showShortCenter('Registered for push notifications');
           $scope.registerDisabled=true;
+          */
           // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
           if (ionic.Platform.isIOS()) {
               $scope.regId = result;
@@ -63,7 +72,7 @@ angular.module('starter.controllers', [])
       else if (ionic.Platform.isIOS()) {
           handleIOS(notification);
           $scope.$apply(function () {
-              $scope.notifications.push(JSON.stringify(notification.alert));
+              $scope.notifications.push( notification );
           })
       }
   });
@@ -117,12 +126,10 @@ angular.module('starter.controllers', [])
       // in this case. You probably wouldn't be displaying anything at this point, this is here to show that you can process
       // the data in this situation.
       else {
-
-          console.log(notification)
           if (notification.body && notification.messageFrom) {
               $cordovaDialogs.alert(notification.body, "(RECEIVED WHEN APP IN BACKGROUND) " + notification.messageFrom);
           }
-          else $cordovaDialogs.alert(notification.alert, "(RECEIVED WHEN APP IN BACKGROUND) Push Notification Received");
+          else $cordovaDialogs.alert(notification.alert, "New Message");
       }
   }
 

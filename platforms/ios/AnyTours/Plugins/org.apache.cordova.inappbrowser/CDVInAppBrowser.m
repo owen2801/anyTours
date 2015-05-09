@@ -525,6 +525,8 @@
     self.toolbar.autoresizesSubviews = YES;
     self.toolbar.autoresizingMask = toolbarIsAtBottom ? (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin) : UIViewAutoresizingFlexibleWidth;
     self.toolbar.barStyle = UIBarStyleBlackOpaque;
+    self.toolbar.tintColor = UIColor.blackColor;
+    self.toolbar.barTintColor = [UIColor colorWithRed:0.875 green:0.949 blue:0.976 alpha:1];
     self.toolbar.clearsContextBeforeDrawing = NO;
     self.toolbar.clipsToBounds = NO;
     self.toolbar.contentMode = UIViewContentModeScaleToFill;
@@ -775,14 +777,44 @@
     [self.webView goForward];
 }
 
+/*
+- (void)viewWillAppear:(BOOL)animated {
+    // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
+    // you can do so here.
+    // Lower screen 20px on ios 7
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        CGRect viewBounds = [self.webView bounds];
+        viewBounds.origin.y = 20;
+        viewBounds.size.height = viewBounds.size.height;
+        self.webView.frame = viewBounds;
+    }
+    [super viewWillAppear:animated];
+}
+ - (void)viewWillAppear:(BOOL)animated
+ {
+ if (IsAtLeastiOSVersion(@"7.0")) {
+ [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
+ }
+ [[UIApplication sharedApplication] setStatusBarHidden:YES];
+ [self rePositionViews];
+ 
+ [super viewWillAppear:animated];
+ }
+*/
+
 - (void)viewWillAppear:(BOOL)animated
 {
     if (IsAtLeastiOSVersion(@"7.0")) {
         [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
     }
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self rePositionViews];
-
+    
     [super viewWillAppear:animated];
+}
+
+-(BOOL)prefersStatusBarHidden{
+    return YES;
 }
 
 //

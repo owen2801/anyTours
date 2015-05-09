@@ -8,7 +8,7 @@
 angular.module('starter', ['ionic',
 'ngCordova', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $cordovaStatusbar) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,6 +19,13 @@ angular.module('starter', ['ionic',
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+    //$cordovaStatusbar.overlaysWebView(true)
+    //$cordovaStatusbar.hide();
+    //$cordovaStatusBar.style(2) //Light
+    /*
+    $cordovaStatusBar.style(2) //Black, transulcent
+    $cordovaStatusBar.style(3) //Black, opaque
+    */
 
   });
 })
@@ -32,14 +39,15 @@ angular.module('starter', ['ionic',
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: "/tab",
     abstract: true,
-    templateUrl: "templates/tabs.html"
+    templateUrl: "templates/tabs.html",
+    controller: "TabCtrl"
   })
 
   // Each tab has its own nav history stack:
-
+  /*
   .state('tab.home', {
     url: '/home',
     views: {
@@ -49,6 +57,7 @@ angular.module('starter', ['ionic',
       }
     }
   })
+*/
 
   .state('tab.message', {
       url: '/message',
@@ -81,6 +90,6 @@ angular.module('starter', ['ionic',
   ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/home');
+  $urlRouterProvider.otherwise('/tab/message');
 
 });

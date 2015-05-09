@@ -239,6 +239,13 @@ module.exports = [
         "clobbers": [
             "cordova.getAppVersion"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
+        "id": "org.apache.cordova.statusbar.statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -255,7 +262,8 @@ module.exports.metadata =
     "org.apache.cordova.media": "0.2.16",
     "com.phonegap.plugins.PushPlugin": "2.4.0",
     "nl.x-services.plugins.toast": "2.0.5",
-    "uk.co.whiteoctober.cordova.appversion": "0.1.5"
+    "uk.co.whiteoctober.cordova.appversion": "0.1.5",
+    "org.apache.cordova.statusbar": "0.1.10"
 }
 // BOTTOM OF METADATA
 });
