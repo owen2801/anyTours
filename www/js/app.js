@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic',
-'ngCordova', 'starter.controllers', 'starter.services'])
+'ngCordova', 'starter.controllers', 'starter.services', 'ngSanitize'])
 
 .run(function($ionicPlatform, $cordovaStatusbar) {
   $ionicPlatform.ready(function() {

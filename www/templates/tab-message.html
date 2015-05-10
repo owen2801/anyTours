@@ -1,6 +1,14 @@
 <ion-view view-title="Messages">
   <ion-content padding="true">
-    <h1>Any Tours Travel Demo</h1>
+    <ion-title><h3>AnyTours Demo</h3></ion-title>
+    
+    <div class="card" ng-repeat="notification in notifications track by $index" ng-click='checkMessage("{{notification.message_id}}")'>
+      <ion-item class="item item-text-wrap" href="#/tab/message/{{notification.message_id}}">
+        <p style="font-size: 1.2em">{{notification.alert}}</p>
+        <p style="text-align:right;margin-top:5px">{{notification.deliver_date}}</p>
+      </ion-item>
+    </div>
+    <!--
     <ion-list>
         <ion-item class="item-remove-animate" ng-repeat="notification in notifications track by $index" type="item-content" onclick='window.open("http://hubbis.com", "_blank", "location=yes");return false'>
             {{notification.alert}}
@@ -11,6 +19,7 @@
 
         </ion-item>
     </ion-list>
+    -->
     <!--
     <ion-list>
       <ion-item class="item-remove-animate" collection-repeat="message in messages" type="item-text-wrap" href="#/tab/message/{{message.id}}">

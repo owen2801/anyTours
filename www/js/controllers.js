@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
 
 .controller('HomeCtrl', function($scope) {})
 
-.controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaAppVersion, $cordovaDevice , Messages, ionPlatform) {
+.controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaAppVersion, $cordovaDevice, $window, $location, Messages, ionPlatform) {
   
   /*
   $scope.messages = Messages.all();
@@ -20,12 +20,18 @@ angular.module('starter.controllers', [])
   }
 */
   /*========== Push Notification Handler ==========*/
-  $scope.notifications = [];
+  $scope.notifications = JSON.parse( $window.localStorage['messages'] || "[]");
 
   // call to register automatically upon device ready
   ionPlatform.ready.then(function (device) {
      $scope.register();
   });
+
+  // Check Message
+  $scope.checkMessage = function (messageId) {
+    window.open("#/tab/message/" + messageId, "_self", "location=no,toolbar=yes,toolbarposition=bottom");
+    return false;
+  }
 
 
   // Register
@@ -66,16 +72,27 @@ angular.module('starter.controllers', [])
   // owen - changelog: $cordovaPush:notificationReceived ---> pushNotificationReceived
   $scope.$on('$cordovaPush:notificationReceived', function (event, notification) {
       //console.log(JSON.stringify([notification]));
+      notification.expire_date = new Date( notification.expire_date * 1000 );
+      notification.expire_date.setHours( notification.expire_date.getHours() - 8 );
+      var now = new Date();
+      notification.deliver_date = now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate();
+      addMessage(notification);
       if (ionic.Platform.isAndroid()) {
           handleAndroid(notification);
       }
       else if (ionic.Platform.isIOS()) {
           handleIOS(notification);
           $scope.$apply(function () {
-              $scope.notifications.push( notification );
+              $scope.notifications.unshift( notification );
           })
       }
   });
+
+  function addMessage (message) {
+    var messages = JSON.parse( $window.localStorage['messages'] || "[]" );
+    messages.unshift( message );
+    $window.localStorage['messages'] = JSON.stringify( messages );
+  }
 
   // Android Notification Received Handler
   function handleAndroid(notification) {
@@ -89,7 +106,7 @@ angular.module('starter.controllers', [])
       else if (notification.event == "message") {
           $cordovaDialogs.alert(notification.message, "Push Notification Received");
           $scope.$apply(function () {
-              $scope.notifications.push(JSON.stringify(notification.message));
+              $scope.notifications.unshift(JSON.stringify(notification.message));
           })
       }
       else if (notification.event == "error")
@@ -203,14 +220,27 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MessageDetailCtrl', function($scope, $stateParams, Messages) {
-  $scope.message = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
-  }];
-})
+.controller('MessageDetailCtrl', function($scope, $stateParams, $http) {
+  var messageId = $stateParams.messageId;
+
+  var req = {
+      method: 'GET',
+      url: "http://dreamover-studio.com/push/message.php?message_id=" + message_id,
+      headers: {
+        'dataType': 'html'
+      }
+  }
+    /*
+  $http(req)
+    .success(function(response){
+      $scope.snipper = response;
+    })
+    .error(function(response){
+      console.log("Cannot get the html");
+    })
+*/
+
+  })
 
 .controller('SettingCtrl', function($scope) {
   $scope.settings = {
