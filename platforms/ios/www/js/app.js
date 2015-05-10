@@ -8,7 +8,7 @@
 angular.module('starter', ['ionic',
 'ngCordova', 'starter.controllers', 'starter.services', 'ngSanitize'])
 
-.run(function($ionicPlatform, $cordovaStatusbar) {
+.run(function( $ionicPlatform, $cordovaDialogs, $window ) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,14 +19,6 @@ angular.module('starter', ['ionic',
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
-    //$cordovaStatusbar.overlaysWebView(true)
-    //$cordovaStatusbar.hide();
-    //$cordovaStatusBar.style(2) //Light
-    /*
-    $cordovaStatusBar.style(2) //Black, transulcent
-    $cordovaStatusBar.style(3) //Black, opaque
-    */
-
   });
 })
 

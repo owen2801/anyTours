@@ -9,8 +9,17 @@ angular.module('starter.controllers', [])
 .controller('HomeCtrl', function($scope) {})
 
 .controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaAppVersion, $cordovaDevice, $window, $location, Messages, ionPlatform) {
+
+  syncMessage();
+
+  document.addEventListener ("resume", onResume, false)
   
-  /*
+  //document.addEventListener ("load", onResume, false)
+  function onResume (){
+    syncMessage()
+  }
+  
+
   $scope.messages = Messages.all();
   $scope.remove = function(message) {
     Messages.remove(message);
@@ -18,7 +27,7 @@ angular.module('starter.controllers', [])
   $scope.get = function(messageId) {
     Messages.get(messageId);
   }
-*/
+
   /*========== Push Notification Handler ==========*/
   $scope.notifications = JSON.parse( $window.localStorage['messages'] || "[]");
 
@@ -29,7 +38,7 @@ angular.module('starter.controllers', [])
 
   // Check Message
   $scope.checkMessage = function (messageId) {
-    window.open("#/tab/message/" + messageId, "_self", "location=no,toolbar=yes,toolbarposition=bottom");
+    window.open("http://dreamover-studio.com/push/message.php?message_id=" + message_id, "_blank", "location=no,toolbar=yes,toolbarposition=bottom");
     return false;
   }
 
@@ -70,29 +79,94 @@ angular.module('starter.controllers', [])
 
   // Notification Received
   // owen - changelog: $cordovaPush:notificationReceived ---> pushNotificationReceived
+  
   $scope.$on('$cordovaPush:notificationReceived', function (event, notification) {
       //console.log(JSON.stringify([notification]));
+      /*
       notification.expire_date = new Date( notification.expire_date * 1000 );
       notification.expire_date.setHours( notification.expire_date.getHours() - 8 );
       var now = new Date();
       notification.deliver_date = now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate();
-      addMessage(notification);
+      */
+      notification.deliver_date_readable = new Date( notification.deliver_date * 1000 );
+      notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
+      notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + notification.deliver_date_readable.getMonth() + "/" + notification.deliver_date_readable.getDate();
+
       if (ionic.Platform.isAndroid()) {
           handleAndroid(notification);
+          addMessage(notification);
       }
       else if (ionic.Platform.isIOS()) {
           handleIOS(notification);
+          /* Move this inside the handleIOS function
           $scope.$apply(function () {
               $scope.notifications.unshift( notification );
           })
+          */
       }
   });
 
   function addMessage (message) {
     var messages = JSON.parse( $window.localStorage['messages'] || "[]" );
     messages.unshift( message );
+    $window.localStorage['latest_message'] = JSON.stringify ( message );
     $window.localStorage['messages'] = JSON.stringify( messages );
   }
+
+  
+  function syncMessage () {
+
+    if ( $window.localStorage['latest_message'] ) {
+      // timezone problem
+      var latest_message = JSON.parse ( $window.localStorage['latest_message'] )
+      deliverDate = latest_message.deliver_date;
+
+      var req = {
+        method: 'GET',
+        url: "http://dreamover-studio.com/push/syncMessage.php",
+        headers: {
+          'dataType': 'json'
+        },
+        params: {
+          delivery_date: deliverDate,
+          development: 'sandbox',
+          sort_order: 'ASC'
+        }
+      }
+
+      $http(req)
+      .success(function(data){
+        var temp_data = [];
+        var notification;
+        angular.forEach(data.messages, function(notification, key){
+          if ( notification.created > deliverDate && !duplicateMessage( notification.message_id ) ){
+            notification.deliver_date_readable = new Date( notification.deliver_date * 1000 );
+            //notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
+            notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + ( notification.deliver_date_readable.getMonth() + 1 ) + "/" + notification.deliver_date_readable.getDate();
+            addMessage( notification )
+            $scope.notifications.unshift (notification);
+          }
+        })
+      })
+      .error(function (data) {
+        console.log("Failed to sync messages!")
+      })
+    }
+
+  }
+
+  function duplicateMessage (messageId) {
+    angular.forEach ($scope.notifications, function(notification, key){
+      if (notification.message_id == messageId){
+        return true;
+      } else {
+        return false;
+      }
+    })
+  }
+  
+
+  //ecb for IOS
 
   // Android Notification Received Handler
   function handleAndroid(notification) {
@@ -126,6 +200,7 @@ angular.module('starter.controllers', [])
               mediaSrc.promise.then($cordovaMedia.play(mediaSrc.media));
           }
 
+
           if (notification.body && notification.messageFrom) {
               $cordovaDialogs.alert(notification.body, notification.messageFrom);
           }
@@ -138,15 +213,24 @@ angular.module('starter.controllers', [])
                   console.log("Set badge error " + err)
               });
           }
+
+          // Update the notifications
+          $scope.$apply(function () {
+              $scope.notifications.unshift( notification );
+          })
+          addMessage(notification);
       }
       // Otherwise it was received in the background and reopened from the push notification. Badge is automatically cleared
       // in this case. You probably wouldn't be displaying anything at this point, this is here to show that you can process
       // the data in this situation.
       else {
+        /* this never run
           if (notification.body && notification.messageFrom) {
               $cordovaDialogs.alert(notification.body, "(RECEIVED WHEN APP IN BACKGROUND) " + notification.messageFrom);
           }
           else $cordovaDialogs.alert(notification.alert, "New Message");
+          */
+          addMessage(notification);
       }
   }
 
@@ -220,27 +304,24 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MessageDetailCtrl', function($scope, $stateParams, $http) {
+.controller('MessageDetailCtrl', function($scope, $stateParams, $http, $sce) {
   var messageId = $stateParams.messageId;
-
   var req = {
       method: 'GET',
-      url: "http://dreamover-studio.com/push/message.php?message_id=" + message_id,
+      url: "http://dreamover-studio.com/push/message.php?message_id=" + messageId,
       headers: {
         'dataType': 'html'
       }
   }
-    /*
   $http(req)
-    .success(function(response){
-      $scope.snipper = response;
-    })
-    .error(function(response){
-      console.log("Cannot get the html");
-    })
-*/
-
+  .success(function(response){
+    $scope.snipper = $sce.trustAsHtml( response )
   })
+  .error(function(response){
+    console.log("Cannot get the html");
+  })
+
+})
 
 .controller('SettingCtrl', function($scope) {
   $scope.settings = {
