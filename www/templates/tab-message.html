@@ -1,10 +1,13 @@
-<ion-view view-title="Messages">
+<ion-view view-title="{{ 'notification' | translate }}">
   <ion-content padding="true">
     <h3>Any Tours Travel Demo</h3>
     <div class="card" ng-repeat="notification in notifications track by $index"><!--ng-click='checkMessage("{{notification.message_id}}")'-->
       <ion-item class="item item-text-wrap" href="#/tab/message/{{notification.message_id}}">
         <p style="font-size: 1.2em">{{notification.alert}}</p>
-        <p style="text-align:right;margin-top:5px">{{notification.deliver_date_readable}}</p>
+      </ion-item>
+      <ion-item class="item item-divider" style="font-size:0.8em">
+      <span style="float:left">{{notification.deliver_date_readable}}</span>
+      <span style="float:right" translate="author">by Any Tours</span>
       </ion-item>
     </div>
     <!--

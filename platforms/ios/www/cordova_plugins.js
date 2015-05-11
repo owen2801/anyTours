@@ -248,6 +248,20 @@ module.exports = [
         "clobbers": [
             "window.StatusBar"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+        "id": "cordova-plugin-globalization.GlobalizationError",
+        "clobbers": [
+            "window.GlobalizationError"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+        "id": "cordova-plugin-globalization.globalization",
+        "clobbers": [
+            "navigator.globalization"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -265,7 +279,8 @@ module.exports.metadata =
     "com.phonegap.plugins.PushPlugin": "2.4.0",
     "nl.x-services.plugins.toast": "2.0.5",
     "uk.co.whiteoctober.cordova.appversion": "0.1.5",
-    "org.apache.cordova.statusbar": "0.1.10"
+    "org.apache.cordova.statusbar": "0.1.10",
+    "cordova-plugin-globalization": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

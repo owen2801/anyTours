@@ -5,10 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic',
-'ngCordova', 'starter.controllers', 'starter.services', 'ngSanitize'])
+angular.module('starter', ['ionic', 'ngCordova', 'ngSanitize', 'pascalprecht.translate',
+'starter.controllers', 'starter.services' ])
 
-.run(function( $ionicPlatform, $cordovaDialogs, $window ) {
+.run(function( $ionicPlatform, $cordovaDialogs, $translate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,17 +19,33 @@ angular.module('starter', ['ionic',
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+    if ( localStorage["language"] ) {
+      navigator.globalization.getPreferredLanguage(
+      function (language) {
+        if (language.value.indexOf("zh") > -1){
+           localStorage["language"] = "cn";
+           $translate.use("cn")
+        } else {
+          $translate.use("en")
+        }
+      },
+      function () {
+        alert('Error getting language\n');
+      }
+    );
+    }
+    
+    
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: "/tab",
@@ -83,5 +99,13 @@ angular.module('starter', ['ionic',
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/message');
+  
+  $translateProvider.useStaticFilesLoader({
+    prefix: 'languages/',
+    suffix: '.json'
+  });
+  
+  $translateProvider.preferredLanguage( localStorage['language'] || 'en');
+  $translateProvider.fallbackLanguage("en");
 
 });

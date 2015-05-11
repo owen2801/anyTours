@@ -1,8 +1,12 @@
-<ion-view view-title="Setting">
+<ion-view view-title="{{ 'setting' | translate }}">
   <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
+    <ion-list class="list">
+    <ion-item class="item item-text-wrap" ng-click="showLangPopup()" translate="language">
+    	Languages
+	</ion-item>
+	
+    <ion-toggle  ng-model="settings.receivePush" ng-change="pushNotificationChange()">
+        <p translate="receivePush" style="font-size:1em">Receive Push</p>
     </ion-toggle>
     </ion-list>
   </ion-content>

@@ -7,16 +7,16 @@ navigation history that also transitions its views in and out.
 
   <a class="tab-item" ng-click='openBrowser()'>
     <i class="icon ion-ios-pulse"></i>
-    <span class="tab-title">Home</span>
+    <span class="tab-title" translate="home">Home</span>
   </a>
 
   <!-- Chats Tab -->
-  <ion-tab title="Message" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/message">
+  <ion-tab title="{{ 'notification' | translate }}" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/message">
     <ion-nav-view name="tab-message"></ion-nav-view>
   </ion-tab>
 
   <!-- Setting Tab -->
-  <ion-tab title="Setting" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/setting">
+  <ion-tab title="{{ 'setting' | translate }}" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/setting">
     <ion-nav-view name="tab-setting"></ion-nav-view>
   </ion-tab>
 
