@@ -1,6 +1,6 @@
 var token_global = "";
 
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize'])
 
 .controller('TabCtrl', function($scope) {
   $scope.openBrowser = function () {

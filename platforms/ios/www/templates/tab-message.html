@@ -1,13 +1,16 @@
 <ion-view view-title="{{ 'notification' | translate }}">
-  <ion-content padding="true">
-    <h3>Any Tours Travel Demo</h3>
-    <div class="card" ng-repeat="notification in notifications track by $index"><!--ng-click='checkMessage("{{notification.message_id}}")'-->
-      <ion-item class="item item-text-wrap" href="#/tab/message/{{notification.message_id}}">
-        <p style="font-size: 1.2em">{{notification.alert}}</p>
-      </ion-item>
+  <ion-content>
+    <div style="margin-bottom:10px">
+      <img src="http://dreamover-studio.com/push/image/main.jpg" style="width:100%" />
+    </div>
+    <div class="card" bindonce ng-repeat="notification in notifications track by $index"><!--ng-click='checkMessage("{{notification.message_id}}")'-->
+
       <ion-item class="item item-divider" style="font-size:0.8em">
-      <span style="float:left">{{notification.deliver_date_readable}}</span>
-      <span style="float:right" translate="author">by Any Tours</span>
+        <span style="float:left" bo-text="notification.deliver_date_readable"></span>
+        <span style="float:right" translate="author">by Any Tours</span>
+      </ion-item>
+      <ion-item class="item item-text-wrap" ng-href="#/tab/message/{{notification.message_id}}">
+        <p style="font-size: 1.2em" bo-text="notification.alert"></p>
       </ion-item>
     </div>
     <!--

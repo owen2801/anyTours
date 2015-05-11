@@ -33,7 +33,12 @@ angular.module('starter.controllers', [])
 
   // Check Message
   $scope.checkMessage = function (messageId) {
+  if (ionic.Platform.isIOS()){
     window.open("http://dreamover-studio.com/push/message.php?message_id=" + message_id, "_blank", "location=no,toolbar=yes,toolbarposition=bottom");
+  } else {
+    window.open("http://dreamover-studio.com/push/message.php?message_id=" + message_id, "_blank", "location=yes,toolbar=yes");
+  }
+
     return false;
   }
   // Register
