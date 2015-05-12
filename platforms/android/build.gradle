@@ -170,6 +170,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
         }
     }
 
@@ -247,8 +248,6 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     debugCompile project(path: ":CordovaLib", configuration: "debug")
     releaseCompile project(path: ":CordovaLib", configuration: "release")
-    debugCompile project(path: ":cordova-plugin-crosswalk-webview:mainApp-xwalk_core_library", configuration: "debug")
-    releaseCompile project(path: ":cordova-plugin-crosswalk-webview:mainApp-xwalk_core_library", configuration: "release")
     // SUB-PROJECT DEPENDENCIES END
 }
 
@@ -290,16 +289,16 @@ def addSigningProps(propsFilePath, signingConfig) {
     signingConfig.keyPassword = props.get('keyPassword', props.get('key.alias.password', signingConfig.keyPassword))
     signingConfig.storeFile = storeFile
     signingConfig.storePassword = props.get('storePassword', props.get('key.store.password', signingConfig.storePassword))
-    def storeType = props.get('storeType')
+    def storeType = props.get('storeType', props.get('key.store.type', ''))
     if (!storeType) {
         def filename = storeFile.getName().toLowerCase();
         if (filename.endsWith('.p12') || filename.endsWith('.pfx')) {
             storeType = 'pkcs12'
+        } else {
+            storeType = signingConfig.storeType // "jks"
         }
     }
-    if (storeType) {
-        signingConfig.storeType = storeType
-    }
+    signingConfig.storeType = storeType
 }
 
 for (def func : cdvPluginPostBuildExtras) {

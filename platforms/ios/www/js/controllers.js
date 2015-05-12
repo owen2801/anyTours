@@ -79,22 +79,20 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
   // owen - changelog: $cordovaPush:notificationReceived ---> pushNotificationReceived
   
   $scope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-      console.log( "========== received" + notification.deliver_date )
-      
+    if ( ionic.Platform.isAndroid() ) {
+      handleAndroid(notification);
+
+    } else if (ionic.Platform.isIOS()){
       if ( !duplicateMessage( notification.message_id ) ) {
 
         notification.deliver_date_readable = new Date( notification.deliver_date * 1000);
         notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
         notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + notification.deliver_date_readable.getMonth() + "/" + notification.deliver_date_readable.getDate();
 
-        if (ionic.Platform.isAndroid()) {
-            handleAndroid(notification);
-        }
-        else if (ionic.Platform.isIOS()) {
-            handleIOS(notification);
-        }
+        handleIOS(notification);
       }
-      
+    }
+    
   });
 
   // Android Notification Received Handler
@@ -108,17 +106,20 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
           if ($scope.receivePush) {
            storeDeviceToken();
           }
-      }
-      else if (notification.event == "message") {
+      } else if ( notification.event = "message" ) {
+        notification = notification.payload;
+        if ( !duplicateMessage( notification.message_id ) ) {
           $cordovaDialogs.alert(notification.message, $translate.instant("receivedNoti") );
           $scope.$apply(function () {
-              $scope.notifications.unshift(JSON.stringify(notification.message));
+            $scope.notifications.unshift( notification );
           })
           addMessage(notification);
+        }
+      } else if ( notification.event == "error" ) {
+        $cordovaDialogs.alert(notification.msg, "Push notification error event");
+      } else {
+        $cordovaDialogs.alert(notification.event, "Push notification handler - Unprocessed Event");
       }
-      else if (notification.event == "error")
-          $cordovaDialogs.alert(notification.msg, "Push notification error event");
-      else $cordovaDialogs.alert(notification.event, "Push notification handler - Unprocessed Event");
   }
 
   // IOS Notification Received Handler
@@ -317,6 +318,23 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
   .error(function(response){
     console.log("Cannot get the html");
   })
+
+  document.getElementById("message-detail").addEventListener("click", onClick, false)
+
+  function onClick (e) {
+    e = e ||  window.event;
+    var element = e.target || e.srcElement;
+
+    if (element.tagName == 'A') {
+        e.preventDefault();
+        if(ionic.Platform.isIOS()){
+          window.open(element.href, "_blank", "location=no,toolbar=yes,toolbarposition=bottom")
+        } else {
+          window.open(element.href, "_blank", "location=yes")
+
+        }
+    }
+  };
 
 })
 

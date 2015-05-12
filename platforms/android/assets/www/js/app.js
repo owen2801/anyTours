@@ -14,7 +14,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
     // for form inputs)
     if ( !localStorage["installedDate"] ) {
       var today = new Date();
-      today.setDate(today.getDate() - 10)
       localStorage["installedDate"] = today / 1000; 
     }
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -45,7 +44,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $translateProvider) {
+.config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -59,20 +58,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
     templateUrl: "templates/tabs.html",
     controller: "TabCtrl"
   })
-
-  // Each tab has its own nav history stack:
-  /*
-  .state('tab.home', {
-    url: '/home',
-    views: {
-      'tab-home': {
-        templateUrl: 'templates/tab-home.html',
-        controller: 'HomeCtrl'
-      }
-    }
-  })
-*/
-
   .state('tab.message', {
       url: '/message',
       views: {
@@ -103,6 +88,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
   })
   ;
   // Use Native Scroll
+  //if(!ionic.Platform.isIOS())$ionicConfigProvider.scrolling.jsScrolling(false);
 
   // if none of the above states are matched, use this as the fallback
   $translateProvider.useSanitizeValueStrategy('escaped');

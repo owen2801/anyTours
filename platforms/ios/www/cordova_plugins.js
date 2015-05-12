@@ -288,7 +288,6 @@ module.exports.metadata =
     "uk.co.whiteoctober.cordova.appversion": "0.1.5",
     "org.apache.cordova.statusbar": "0.1.10",
     "cordova-plugin-globalization": "1.0.0",
-    "cordova-plugin-crosswalk-webview": "1.0.1-dev",
     "org.apache.cordova.splashscreen": "1.0.0"
 }
 // BOTTOM OF METADATA

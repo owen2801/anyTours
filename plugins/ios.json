@@ -154,9 +154,6 @@
         "cordova-plugin-globalization": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
-        "cordova-plugin-crosswalk-webview": {
-            "PACKAGE_NAME": "com.anytours.mainApp"
-        },
         "org.apache.cordova.splashscreen": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         }

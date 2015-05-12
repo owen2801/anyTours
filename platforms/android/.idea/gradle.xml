@@ -10,8 +10,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/CordovaLib" />
-            <option value="$PROJECT_DIR$/cordova-plugin-crosswalk-webview" />
-            <option value="$PROJECT_DIR$/cordova-plugin-crosswalk-webview/mainApp-xwalk_core_library" />
           </set>
         </option>
       </GradleProjectSettings>

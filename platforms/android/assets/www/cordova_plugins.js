@@ -240,6 +240,13 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
+        "id": "org.apache.cordova.splashscreen.SplashScreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
         "id": "org.apache.cordova.statusbar.statusbar",
         "clobbers": [
@@ -260,13 +267,6 @@ module.exports = [
         "clobbers": [
             "cordova.getAppVersion"
         ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
-        "id": "org.apache.cordova.splashscreen.SplashScreen",
-        "clobbers": [
-            "navigator.splashscreen"
-        ]
     }
 ];
 module.exports.metadata = 
@@ -283,11 +283,10 @@ module.exports.metadata =
     "org.apache.cordova.file-transfer": "0.5.0",
     "org.apache.cordova.inappbrowser": "0.6.0",
     "org.apache.cordova.media": "0.2.16",
+    "org.apache.cordova.splashscreen": "1.0.0",
     "org.apache.cordova.statusbar": "0.1.10",
     "org.apache.cordova.vibration": "0.3.13",
-    "uk.co.whiteoctober.cordova.appversion": "0.1.5",
-    "cordova-plugin-crosswalk-webview": "1.0.1-dev",
-    "org.apache.cordova.splashscreen": "1.0.0"
+    "uk.co.whiteoctober.cordova.appversion": "0.1.5"
 }
 // BOTTOM OF METADATA
 });

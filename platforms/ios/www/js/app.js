@@ -101,6 +101,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
     }
   })
   ;
+  // Use Native Scroll
 
   // if none of the above states are matched, use this as the fallback
   $translateProvider.useSanitizeValueStrategy('escaped');
