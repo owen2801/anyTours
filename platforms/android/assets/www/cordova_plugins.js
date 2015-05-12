@@ -1,15 +1,61 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
+        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
+        "clobbers": [
+            "PushNotification"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+        "id": "cordova-plugin-globalization.GlobalizationError",
+        "clobbers": [
+            "window.GlobalizationError"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+        "id": "cordova-plugin-globalization.globalization",
+        "clobbers": [
+            "navigator.globalization"
+        ]
+    },
+    {
         "file": "plugins/cordova-plugin-whitelist/whitelist.js",
         "id": "cordova-plugin-whitelist.whitelist",
         "runs": true
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.toast/www/Toast.js",
+        "id": "nl.x-services.plugins.toast.Toast",
+        "clobbers": [
+            "window.plugins.toast"
+        ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.toast/test/tests.js",
+        "id": "nl.x-services.plugins.toast.tests"
     },
     {
         "file": "plugins/org.apache.cordova.device/www/device.js",
         "id": "org.apache.cordova.device.device",
         "clobbers": [
             "device"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.dialogs/www/notification.js",
+        "id": "org.apache.cordova.dialogs.notification",
+        "merges": [
+            "navigator.notification"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.dialogs/www/android/notification.js",
+        "id": "org.apache.cordova.dialogs.notification_android",
+        "merges": [
+            "navigator.notification"
         ]
     },
     {
@@ -173,28 +219,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.dialogs/www/notification.js",
-        "id": "org.apache.cordova.dialogs.notification",
-        "merges": [
-            "navigator.notification"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.dialogs/www/android/notification.js",
-        "id": "org.apache.cordova.dialogs.notification_android",
-        "merges": [
-            "navigator.notification"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.vibration/www/vibration.js",
-        "id": "org.apache.cordova.vibration.notification",
-        "merges": [
-            "navigator.notification",
-            "navigator"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
         "id": "org.apache.cordova.inappbrowser.inappbrowser",
         "clobbers": [
@@ -216,22 +240,19 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
-        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
+        "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
+        "id": "org.apache.cordova.statusbar.statusbar",
         "clobbers": [
-            "PushNotification"
+            "window.StatusBar"
         ]
     },
     {
-        "file": "plugins/nl.x-services.plugins.toast/www/Toast.js",
-        "id": "nl.x-services.plugins.toast.Toast",
-        "clobbers": [
-            "window.plugins.toast"
+        "file": "plugins/org.apache.cordova.vibration/www/vibration.js",
+        "id": "org.apache.cordova.vibration.notification",
+        "merges": [
+            "navigator.notification",
+            "navigator"
         ]
-    },
-    {
-        "file": "plugins/nl.x-services.plugins.toast/test/tests.js",
-        "id": "nl.x-services.plugins.toast.tests"
     },
     {
         "file": "plugins/uk.co.whiteoctober.cordova.appversion/www/AppVersionPlugin.js",
@@ -241,44 +262,32 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.statusbar/www/statusbar.js",
-        "id": "org.apache.cordova.statusbar.statusbar",
+        "file": "plugins/org.apache.cordova.splashscreen/www/splashscreen.js",
+        "id": "org.apache.cordova.splashscreen.SplashScreen",
         "clobbers": [
-            "window.StatusBar"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
-        "id": "cordova-plugin-globalization.GlobalizationError",
-        "clobbers": [
-            "window.GlobalizationError"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
-        "id": "cordova-plugin-globalization.globalization",
-        "clobbers": [
-            "navigator.globalization"
+            "navigator.splashscreen"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "com.phonegap.plugins.PushPlugin": "2.4.0",
+    "cordova-plugin-globalization": "1.0.0",
     "cordova-plugin-whitelist": "1.0.0",
+    "nl.x-services.plugins.toast": "2.0.5",
+    "org.apache.cordova.console": "0.2.13",
     "org.apache.cordova.device": "0.3.0",
+    "org.apache.cordova.dialogs": "0.3.0",
     "org.apache.cordova.file": "1.3.3",
     "org.apache.cordova.file-transfer": "0.5.0",
-    "org.apache.cordova.dialogs": "0.3.0",
-    "org.apache.cordova.vibration": "0.3.13",
     "org.apache.cordova.inappbrowser": "0.6.0",
-    "org.apache.cordova.console": "0.2.13",
     "org.apache.cordova.media": "0.2.16",
-    "com.phonegap.plugins.PushPlugin": "2.4.0",
-    "nl.x-services.plugins.toast": "2.0.5",
-    "uk.co.whiteoctober.cordova.appversion": "0.1.5",
     "org.apache.cordova.statusbar": "0.1.10",
-    "cordova-plugin-globalization": "1.0.0"
+    "org.apache.cordova.vibration": "0.3.13",
+    "uk.co.whiteoctober.cordova.appversion": "0.1.5",
+    "cordova-plugin-crosswalk-webview": "1.0.1-dev",
+    "org.apache.cordova.splashscreen": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

@@ -9,11 +9,27 @@
                 "parents": {
                     "/*": [
                         {
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"android-package\" value=\"com.plugin.gcm.PushPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"android-package\" value=\"org.apache.cordova.dialogs.Notification\" /></feature>",
                             "count": 1
                         },
                         {
@@ -25,14 +41,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Notification\"><param name=\"android-package\" value=\"org.apache.cordova.dialogs.Notification\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Vibration\"><param name=\"android-package\" value=\"org.apache.cordova.vibration.Vibration\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
                             "count": 1
                         },
@@ -41,11 +49,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"PushPlugin\"><param name=\"android-package\" value=\"com.plugin.gcm.PushPlugin\" /></feature>",
+                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+                            "xml": "<feature name=\"Vibration\"><param name=\"android-package\" value=\"org.apache.cordova.vibration.Vibration\" /></feature>",
                             "count": 1
                         },
                         {
@@ -53,11 +61,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -65,29 +73,7 @@
             },
             "AndroidManifest.xml": {
                 "parents": {
-                    "/*": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 3
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
-                            "count": 1
-                        }
-                    ],
                     "/manifest": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
-                            "count": 2
-                        },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
                             "count": 1
@@ -99,6 +85,10 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
+                            "count": 2
                         },
                         {
                             "xml": "<uses-permission android:name=\"com.google.android.c2dm.permission.RECEIVE\" />",
@@ -126,16 +116,49 @@
                             "xml": "<service android:name=\"com.plugin.gcm.GCMIntentService\" />",
                             "count": 1
                         }
+                    ],
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 3
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
+                            "count": 1
+                        }
                     ]
                 }
             }
         }
     },
     "installed_plugins": {
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.anytours.mainApp"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "com.anytours.mainApp"
+        },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
+        "nl.x-services.plugins.toast": {
+            "PACKAGE_NAME": "com.anytours.mainApp"
+        },
+        "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.anytours.mainApp"
+        },
         "org.apache.cordova.device": {
+            "PACKAGE_NAME": "com.anytours.mainApp"
+        },
+        "org.apache.cordova.dialogs": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
         "org.apache.cordova.file": {
@@ -144,34 +167,25 @@
         "org.apache.cordova.file-transfer": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
-        "org.apache.cordova.dialogs": {
-            "PACKAGE_NAME": "com.anytours.mainApp"
-        },
-        "org.apache.cordova.vibration": {
-            "PACKAGE_NAME": "com.anytours.mainApp"
-        },
         "org.apache.cordova.inappbrowser": {
-            "PACKAGE_NAME": "com.anytours.mainApp"
-        },
-        "org.apache.cordova.console": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
         "org.apache.cordova.media": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
-        "com.phonegap.plugins.PushPlugin": {
+        "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
-        "nl.x-services.plugins.toast": {
+        "org.apache.cordova.vibration": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
         "uk.co.whiteoctober.cordova.appversion": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
-        "org.apache.cordova.statusbar": {
+        "cordova-plugin-crosswalk-webview": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
-        "cordova-plugin-globalization": {
+        "org.apache.cordova.splashscreen": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         }
     },

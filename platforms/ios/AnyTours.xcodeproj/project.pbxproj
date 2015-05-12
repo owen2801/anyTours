@@ -59,6 +59,7 @@
 		D2530127554A49F4A9360B0D /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F73ADBC10F4B04B016EEA1 /* AppVersion.m */; };
 		104DA896A2664A5F97724914 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FBFAFD15A54C4631BEDA04E6 /* CDVStatusBar.m */; };
 		74E1B9030A1340D29620AC59 /* CDVGlobalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B4450081CA5430098A79EE0 /* CDVGlobalization.m */; };
+		272CFE93B3A34093A14B6FE5 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = A79422547FFB4A78B47F2E71 /* CDVSplashScreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +160,8 @@
 		5E783F506DB742F7B0D5F718 /* CDVStatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVStatusBar.h"; path = "org.apache.cordova.statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		8B4450081CA5430098A79EE0 /* CDVGlobalization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVGlobalization.m"; path = "cordova-plugin-globalization/CDVGlobalization.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		9D2F7E5816EA497A978FAD2C /* CDVGlobalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVGlobalization.h"; path = "cordova-plugin-globalization/CDVGlobalization.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		A79422547FFB4A78B47F2E71 /* CDVSplashScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVSplashScreen.m"; path = "org.apache.cordova.splashscreen/CDVSplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		36868B498531467EA5CA8B4B /* CDVSplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVSplashScreen.h"; path = "org.apache.cordova.splashscreen/CDVSplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,6 +299,8 @@
 				5E783F506DB742F7B0D5F718 /* CDVStatusBar.h */,
 				8B4450081CA5430098A79EE0 /* CDVGlobalization.m */,
 				9D2F7E5816EA497A978FAD2C /* CDVGlobalization.h */,
+				A79422547FFB4A78B47F2E71 /* CDVSplashScreen.m */,
+				36868B498531467EA5CA8B4B /* CDVSplashScreen.h */,
 			);
 			name = Plugins;
 			path = AnyTours/Plugins;
@@ -503,6 +508,7 @@
 				D2530127554A49F4A9360B0D /* AppVersion.m in Sources */,
 				104DA896A2664A5F97724914 /* CDVStatusBar.m in Sources */,
 				74E1B9030A1340D29620AC59 /* CDVGlobalization.m in Sources */,
+				272CFE93B3A34093A14B6FE5 /* CDVSplashScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

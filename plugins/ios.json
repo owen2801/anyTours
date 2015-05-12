@@ -67,6 +67,10 @@
                         {
                             "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -94,7 +98,7 @@
                     "CoreGraphics.framework": [
                         {
                             "xml": false,
-                            "count": 1
+                            "count": 2
                         }
                     ],
                     "QuartzCore.framework": [
@@ -148,6 +152,12 @@
             "PACKAGE_NAME": "com.anytours.mainApp"
         },
         "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "com.anytours.mainApp"
+        },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "com.anytours.mainApp"
+        },
+        "org.apache.cordova.splashscreen": {
             "PACKAGE_NAME": "com.anytours.mainApp"
         }
     },
