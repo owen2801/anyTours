@@ -12,6 +12,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    if ( !localStorage["installedDate"] ) {
+      var today = new Date();
+      today.setDate(today.getDate() - 10 )
+      localStorage["installedDate"] = today / 1000; 
+    }
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -98,6 +103,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
   ;
 
   // if none of the above states are matched, use this as the fallback
+  $translateProvider.useSanitizeValueStrategy('escaped');
+  
   $urlRouterProvider.otherwise('/tab/message');
   
   $translateProvider.useStaticFilesLoader({

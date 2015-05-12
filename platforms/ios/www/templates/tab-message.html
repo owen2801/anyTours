@@ -3,16 +3,29 @@
     <div style="margin-bottom:10px">
       <img src="http://dreamover-studio.com/push/image/main.jpg" style="width:100%" />
     </div>
-    <div class="card" bindonce ng-repeat="notification in notifications track by $index"><!--ng-click='checkMessage("{{notification.message_id}}")'-->
 
+    <div class="card" ng-repeat="notification in notifications track by $index">
       <ion-item class="item item-divider" style="font-size:0.8em">
-        <span style="float:left" bo-text="notification.deliver_date_readable"></span>
-        <span style="float:right" translate="author">by Any Tours</span>
+        <span style="float:left">{{notification.deliver_date_readable}}</span>
+        <span style="float:right" translate="author">By Any Tours</span>
       </ion-item>
       <ion-item class="item item-text-wrap" ng-href="#/tab/message/{{notification.message_id}}">
-        <p style="font-size: 1.2em" bo-text="notification.alert"></p>
+        <p style="font-size: 1.2em">{{notification.alert}}</p>
       </ion-item>
     </div>
+
+    <div ng-react-compoent="notificationsComponent" data="saved_notifications"></div>
+    <!--
+    <div class="card" bindonce ng-repeat="savedNotification in savedNotifications">
+      <ion-item class="item item-divider" style="font-size:0.8em">
+        <span style="float:left" bo-text="savedNotification.deliver_date_readable"></span>
+        <span style="float:right" translate="author">By Any Tours</span>
+      </ion-item>
+      <ion-item class="item item-text-wrap" ng-href="#/tab/message/{{savedNotification.message_id}}">
+        <p style="font-size: 1.2em" bo-text="savedNotification.alert"></p>
+      </ion-item>
+    </div>
+    -->
     <!--
     <ion-list>
       <ion-item class="item-remove-animate" collection-repeat="message in messages" type="item-text-wrap" href="#/tab/message/{{message.id}}">

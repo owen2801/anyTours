@@ -235,6 +235,9 @@ android {
             release {
                 signingConfig signingConfigs.release
             }
+            debug {
+                debuggable true
+            }
         }
         addSigningProps(cdvReleaseSigningPropertiesFile, signingConfigs.release)
     }
