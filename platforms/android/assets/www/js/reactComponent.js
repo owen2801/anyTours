@@ -5,11 +5,11 @@ window.notificationsComponent = React.createClass({displayName: "notificationsCo
       return (
         React.createElement("div", {className: "card"}, 
           React.createElement("div", {className: "item item-divider"}, 
-            React.createElement("span", {style:{float:"left"}}, " ", notification.deliver_date_readable, " "), 
-            React.createElement("span", {translate: "author", style:{float:"right"}}, "By Any Tours")
+            React.createElement("span", {style:{float:"left", fontSize:"0.8em"}}, " ", notification.deliver_date_readable, " "), 
+            React.createElement("span", {translate: "author", style:{float:"right", fontSize:"0.8em"}}, "By Any Tours")
           ), 
           React.createElement("a", {className: "item item-text-wrap", href: "#/tab/message/" + notification.message_id}, 
-            React.createElement("p", null, " ", notification.alert)
+            React.createElement("p", {style:{fontSize:"1.2em"}}, " ", notification.alert)
           )
         )
         );
