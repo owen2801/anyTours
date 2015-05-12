@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
-'starter.controllers', 'starter.services' ])
+'starter.controllers', 'starter.services', 'starter.directive' ])
 
 .run(function( $ionicPlatform, $cordovaDialogs, $translate) {
   $ionicPlatform.ready(function() {
@@ -24,7 +24,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
-    if ( localStorage["language"] ) {
+
+    if ( !localStorage["language"] ) {
       navigator.globalization.getPreferredLanguage(
       function (language) {
         if (language.value.indexOf("zh") > -1){

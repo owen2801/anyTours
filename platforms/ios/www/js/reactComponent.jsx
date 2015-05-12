@@ -6,7 +6,6 @@ window.notificationsComponent = React.createClass({
 
   	var notification = _.map(notifications, function (notification) {
   		return (
-  			<div className="card">
 		      <div className="item item-divider">
 		        <span> {notification.deliver_date_readable} </span>
 		        <span translate="author">By Any Tours</span>
@@ -14,9 +13,10 @@ window.notificationsComponent = React.createClass({
 		      <div className="item item-text-wrap" href="#/tab/message/{notification.message_id}">
 		        <p style="font-size: 1.2em">{notification.alert}</p>
 		      </div>
-		    </div>
   			);
   	})
+
+    return <div className="card">{notification}</div>
   },
   compoenntDidMount: function () {
   	console.log("======= Component Mounted !")

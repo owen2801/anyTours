@@ -3,7 +3,7 @@
     <div style="margin-bottom:10px">
       <img src="http://dreamover-studio.com/push/image/main.jpg" style="width:100%" />
     </div>
-    
+
     <div class="card" ng-repeat="notification in notifications track by $index">
       <ion-item class="item item-divider" style="font-size:0.8em">
         <span style="float:left">{{notification.deliver_date_readable}}</span>
@@ -14,6 +14,8 @@
       </ion-item>
     </div>
 
+    <notifications-react data="savedNotifications"></notifications-react>
+    <!--
     <div class="card" bindonce ng-repeat="savedNotification in savedNotifications">
       <ion-item class="item item-divider" style="font-size:0.8em">
         <span style="float:left" bo-text="savedNotification.deliver_date_readable"></span>
@@ -23,6 +25,7 @@
         <p style="font-size: 1.2em" bo-text="savedNotification.alert"></p>
       </ion-item>
     </div>
+    -->
     <!--
     <ion-list>
       <ion-item class="item-remove-animate" collection-repeat="message in messages" type="item-text-wrap" href="#/tab/message/{{message.id}}">
@@ -41,3 +44,9 @@
   -->
   </ion-content>
 </ion-view>
+
+<style type="text/css">
+.margin-bottom{
+  margin-bottom: 10px;
+}
+</style>

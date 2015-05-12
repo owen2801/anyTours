@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
-'starter.controllers', 'starter.services' ])
+'starter.controllers', 'starter.services', 'starter.directive' ])
 
 .run(function( $ionicPlatform, $cordovaDialogs, $translate) {
   $ionicPlatform.ready(function() {
@@ -14,6 +14,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
     // for form inputs)
     if ( !localStorage["installedDate"] ) {
       var today = new Date();
+      today.setDate(today.getDate() - 10 )
       localStorage["installedDate"] = today / 1000; 
     }
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -23,7 +24,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
-    if ( localStorage["language"] ) {
+
+    if ( !localStorage["language"] ) {
       navigator.globalization.getPreferredLanguage(
       function (language) {
         if (language.value.indexOf("zh") > -1){
@@ -102,6 +104,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
   ;
 
   // if none of the above states are matched, use this as the fallback
+  $translateProvider.useSanitizeValueStrategy('escaped');
+  
   $urlRouterProvider.otherwise('/tab/message');
   
   $translateProvider.useStaticFilesLoader({
