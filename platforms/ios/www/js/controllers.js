@@ -31,7 +31,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
   /*========== Push Notification Handler ==========*/
   $scope.notifications = [];
-  $scope.savedNotifications = JSON.parse( $window.localStorage['messages'] || "[]" );
+  $scope.savedNotifications = JSON.parse( $window.localStorage['messages'] || "[]" ).reverse();
   // call to register automatically upon device ready
   ionPlatform.ready.then(function (device) {
      $scope.register();
@@ -87,7 +87,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
         notification.deliver_date_readable = new Date( notification.deliver_date * 1000);
         notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
-        notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + notification.deliver_date_readable.getMonth() + "/" + notification.deliver_date_readable.getDate();
+        notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + (notification.deliver_date_readable.getMonth() + 1) + "/" + notification.deliver_date_readable.getDate();
 
         handleIOS(notification);
       }
@@ -109,7 +109,10 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
       } else if ( notification.event = "message" ) {
         notification = notification.payload;
         if ( !duplicateMessage( notification.message_id ) ) {
-          $cordovaDialogs.alert(notification.message, $translate.instant("receivedNoti") );
+          notification.deliver_date_readable = new Date( notification.deliver_date * 1000);
+          notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
+          notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + (notification.deliver_date_readable.getMonth() + 1) + "/" + notification.deliver_date_readable.getDate();
+          //$cordovaDialogs.alert(notification.message, $translate.instant("receivedNoti") );
           $scope.$apply(function () {
             $scope.notifications.unshift( notification );
           })
@@ -197,10 +200,11 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
   function addMessage (message) {
     var messages = JSON.parse( $window.localStorage['messages'] || "[]" );
-    messages.unshift( message );
+    messages.push(message)
     $window.localStorage['latest_message'] = JSON.stringify ( message );
     $window.localStorage['messages'] = JSON.stringify( messages );
   }
+
   function syncMessage () {
 
     if ( $window.localStorage['latest_message'] ) {
@@ -234,6 +238,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
         var notification;
         angular.forEach(data.messages, function(notification, key){
           if ( notification.created > deliverDate && !duplicateMessage( notification.message_id ) ){
+            notification.status = "unread";
             notification.deliver_date_readable = new Date( notification.deliver_date * 1000 );
             //notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
             notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + ( notification.deliver_date_readable.getMonth() + 1 ) + "/" + notification.deliver_date_readable.getDate();
@@ -247,6 +252,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
         console.log("Failed to sync messages!")
       })
   }
+
   function duplicateMessage (messageId) {
     if( $window.localStorage['messages'] ){
       angular.forEach ($window.localStorage['messages'], function(notification, key){
@@ -260,6 +266,35 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
       return false;
     }
     
+  }
+
+  $scope.changeStatus = function (key) {
+    //document.getElementById("divider-" + id).className = "item item-divider";
+    $scope.notifications[key].status = "";
+    var savedNotifications = JSON.parse( $window.localStorage["messages"] );
+    var key2 = 0;
+
+    // For better perfomance
+    for (var i = 0 ; i < savedNotifications.length; i++){
+      key2 = savedNotifications.length - 1 - i
+      if ( savedNotifications[key2].message_id == $scope.notifications[key].message_id ) {
+        savedNotifications[key2].status = "";
+        localStorage["messages"] = JSON.stringify(savedNotifications);
+        return true;
+      }
+    }
+
+    /*
+    angular.forEach( savedNotifications, function(savedNotification, key2){
+      console.log("=======" + key2)
+      if (savedNotification.message_id == $scope.notifications[key].message_id){
+        savedNotifications[key2].status = "";
+        localStorage["messages"] = JSON.stringify(savedNotifications)
+        console.log("Status changed !")
+        return true;
+      }
+    })
+    */
   }
 
    // Removes the device token from the db via node-pushserver API unsubscribe (running locally in this case).
@@ -302,7 +337,16 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
   })
 
 
-.controller('MessageDetailCtrl', function($scope, $stateParams, $http, $sce, $window) {
+.controller('MessageDetailCtrl', function($scope, $stateParams, $http, $sce, $window, $ionicLoading, $timeout) {
+  
+  $ionicLoading.show({
+    template:"<ion-spinner></ion-spinner>",
+    noBackDrop: true,
+    delay: 500,
+    duration: 20000,
+    hideOnStateChange: true
+  })
+
   var messageId = $stateParams.messageId;
   var req = {
       method: 'GET',
@@ -314,6 +358,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
   $http(req)
   .success(function(response){
     $scope.snipper = $sce.trustAsHtml( response )
+    $ionicLoading.hide()
   })
   .error(function(response){
     console.log("Cannot get the html");

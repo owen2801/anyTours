@@ -12,8 +12,28 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    var today = new Date();
+    var localStorageMessages = JSON.parse( localStorage["messages"] )
+    var todayTimestamp = Math.round(today.getTime() / 1000);
+    var expired = 0;
+    var messagesLength = localStorageMessages.length
+    for (var i = 0; i < messagesLength; i++){
+      expired = localStorageMessages[i].expire_date
+      if ( expired < todayTimestamp ) {
+        localStorageMessages.splice(i, 1)
+        console.log("Removed message " + i)
+        i--;
+        messagesLength--;
+      }
+    }
+  
+    if (expired) {
+      localStorage['messages'] = JSON.stringify( localStorageMessages )
+    }
+    
+
     if ( !localStorage["installedDate"] ) {
-      var today = new Date();
+      //today.setDate(today.getDate() - 10)
       localStorage["installedDate"] = today / 1000; 
     }
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

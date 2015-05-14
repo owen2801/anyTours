@@ -1,22 +1,18 @@
 /** @jsx React.DOM */
-window.notificationsComponent = React.createClass({
-  render: function() {
-  	var scope = this.props.scope;
-  	var notifications = scope.notifications;
+var savedNotifications = JSON.parse( localStorage["messages"] || "[]" );
 
-  	var notification = _.map(notifications, function (notification) {
+window.notificationsComponent = React.createClass({
+  handleClick : function (){
+    savedNotifications[key].status = "";
+  },
+  render: function() {
+  	var cards = savedNotifications.map(function(notification, key){
   		return (
-		      <div className="item item-divider">
-		        <span> {notification.deliver_date_readable} </span>
-		        <span translate="author">By Any Tours</span>
-		      </div>
-		      <div className="item item-text-wrap" href="#/tab/message/{notification.message_id}">
-		        <p style="font-size: 1.2em">{notification.alert}</p>
-		      </div>
+        <notificationComponent notification={notification}></notificationComponent>
   			);
   	})
 
-    return <div className="card">{notification}</div>
+    return <div>{cards}</div>
   },
   compoenntDidMount: function () {
   	console.log("======= Component Mounted !")

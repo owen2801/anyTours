@@ -4,27 +4,52 @@
       <img src="http://dreamover-studio.com/push/image/main.jpg" style="width:100%" />
     </div>
 
-    <div class="card" ng-repeat="notification in notifications track by $index">
-      <ion-item class="item item-divider bar-positive" style="font-size:0.8em; background-color:#dff2f">
-        <span style="float:left">{{notification.deliver_date_readable}}</span>
-        <span style="float:right" translate="author">By Any Tours</span>
+    <div class="card" ng-repeat="(key, notification) in notifications track by $index">
+      <ion-item id="divider-{{notification.message_id}}" class="item item-divider {{notification.status}}" style="font-size:0.8em">
+        <span style="float:left; font-szie:0.8em">{{notification.deliver_date_readable}}</span>
+        <span style="float:right; font-size:0.8em" translate="author">By Any Tours</span>
       </ion-item>
-      <ion-item class="item item-text-wrap" ng-href="#/tab/message/{{notification.message_id}}">
+      <ion-item class="item item-text-wrap unread" ng-href="#/tab/message/{{notification.message_id}}" ng-click="changeStatus(key)">
         <p style="font-size: 1.2em">{{notification.alert}}</p>
       </ion-item>
     </div>
-
-    <notifications-react data="savedNotifications"></notifications-react>
-    <!--
-    <div class="card" bindonce ng-repeat="savedNotification in savedNotifications">
-      <ion-item class="item item-divider" style="font-size:0.8em">
-        <span style="float:left" bo-text="savedNotification.deliver_date_readable"></span>
-        <span style="float:right" translate="author">By Any Tours</span>
+    <ion-list>
+    <div class="padding-bottom" collection-repeat="savedNotification in savedNotifications">
+    <div class="card">
+      <ion-item id="divider-{{savedNotification.message_id}}" class="item item-divider {{savedNotification.status}}" style="font-size:0.8em">
+        <span style="float:left; font-szie:0.8em">{{savedNotification.deliver_date_readable}}</span>
+        <span style="float:right; font-size:0.8em" translate="author">By Any Tours</span>
       </ion-item>
-      <ion-item class="item item-text-wrap" ng-href="#/tab/message/{{savedNotification.message_id}}">
-        <p style="font-size: 1.2em" bo-text="savedNotification.alert"></p>
+      <ion-item class="item item-text-wrap" ng-href="#/tab/message/{{savedNotification.message_id}}" ng-click="changeStatus(key)">
+        <p style="font-size:1em; height:2.5em">{{savedNotification.alert}}</p>
       </ion-item>
     </div>
+    </div>
+
+    <div style="height:200px"></div>
+    <!--<notifications-react></notifications-react>-->
+
+    <!-- Collection Repeat
+    <div class="card" collection-repeat="savedNotification in savedNotifications">
+      <ion-item id="divider-{{savedNotification.message_id}}" class="item item-divider {{savedNotification.status}}" style="font-size:0.8em">
+        <span style="float:left; font-szie:0.8em">{{savedNotification.deliver_date_readable}}</span>
+        <span style="float:right; font-size:0.8em" translate="author">By Any Tours</span>
+      </ion-item>
+      <ion-item class="item item-text-wrap unread" ng-href="#/tab/message/{{savedNotification.message_id}}" ng-click="changeStatus(key)">
+        <p style="font-size: 1.2em">{{savedNotification.alert}}</p>
+      </ion-item>
+    </div>
+
+
+    <ion-item class="item text-wrap unread" collection-repeat="savedNotification in savedNotifications" ng-href="#/tab/message/{{savedNotification.message_id}}" ng-click="changeStatus(key)">
+      <div class="col">
+        <div style="height:2.6em">
+        <p style="font-size: 1.2em">{{savedNotification.alert}}</p>
+      </div>
+        <p style="font-size: 0.8em">{{savedNotification.deliver_date_readable}}</p>
+      </div>
+    </ion-item>
+    <ion-list>
     -->
     <!--
     <ion-list>
@@ -46,7 +71,7 @@
 </ion-view>
 
 <style type="text/css">
-.margin-bottom{
-  margin-bottom: 10px;
+.unread{
+  background-color: #dff2ff;
 }
 </style>
