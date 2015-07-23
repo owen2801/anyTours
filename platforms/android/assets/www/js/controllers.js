@@ -1,13 +1,12 @@
-var token_global = "";
 
 angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react'])
 
 .controller('TabCtrl', function($scope) {
   $scope.openBrowser = function () {
     if(ionic.Platform.isIOS()){
-      window.open("http://chinaspecialoffer.com", "_blank", "location=no,toolbar=yes,toolbarposition=bottom")
+      window.open(companyWebADDR, "_blank", "location=no,toolbar=yes,toolbarposition=bottom")
     } else {
-      window.open("http://chinaspecialoffer.com", "_blank", "location=yes")
+      window.open(companyWebADDR, "_blank", "location=yes")
     }
     
   }
@@ -15,9 +14,26 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
 .controller('HomeCtrl', function($scope) {})
 
-.controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaAppVersion, $cordovaDevice, $window, $translate, ionPlatform) {
+.controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaDevice, $window, $translate, $ionicPopover, ionPlatform, $state) {
 
+  //check Installed date
+  if ( localStorage["installedDate"]  ) { 
+
+  } else {
+    var today = new Date();
+    var todayTimestamp = Math.round(today.getTime() / 1000);
+    var messages = []
+    messages.push(welcomeMessage);
+    localStorage["messages"] = JSON.stringify(messages)
+    //today.setDate(today.getDate() - 10)
+    localStorage["installedDate"] = today / 1000;
+  }
+
+
+  // First time sync messages
   syncMessage();
+
+
   $scope.receivePush = true;
   if ( $window.localStorage['receivePush'] == "isFalse" ) {
     $scope.receivePush = false;
@@ -31,7 +47,9 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
   /*========== Push Notification Handler ==========*/
   $scope.notifications = [];
-  $scope.savedNotifications = JSON.parse( $window.localStorage['messages'] || "[]" ).reverse();
+
+  $scope.savedNotifications = JSON.parse( $window.localStorage['messages'] || "[]" );
+
   // call to register automatically upon device ready
   ionPlatform.ready.then(function (device) {
      $scope.register();
@@ -39,7 +57,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
   // Check Message
   $scope.checkMessage = function (messageId) {
-    window.open("http://dreamover-studio.com/push/message.php?message_id=" + message_id, "_blank", "location=no,toolbar=yes,toolbarposition=bottom");
+    window.open( getMessagesPath + "?message_id=" + message_id, "_blank", "location=no,toolbar=yes,toolbarposition=bottom");
     return false;
   }
   // Register
@@ -48,7 +66,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
       if (ionic.Platform.isAndroid()) {
           config = {
-              "senderID": "862098836172" // REPLACE THIS WITH YOURS FROM GCM CONSOLE - also in the project URL like: https://console.developers.google.com/project/434205989073
+              "senderID": GCMId // REPLACE THIS WITH YOURS FROM GCM CONSOLE - also in the project URL like: https://console.developers.google.com/project/434205989073
           };
       }
       else if (ionic.Platform.isIOS()) {
@@ -63,7 +81,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
           $scope.registerDisabled=true;
           // ** NOTE: Android regid result comes back in the pushNotificationReceived, only iOS returned here
           if (ionic.Platform.isIOS()) {
-              token_global = result;
+              tokenGlobal = result;
               $scope.regId = result;
               if ( $scope.receivePush ) {
                 storeDeviceToken();
@@ -80,56 +98,73 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
   
   $scope.$on('$cordovaPush:notificationReceived', function (event, notification) {
     if ( ionic.Platform.isAndroid() ) {
-      handleAndroid(notification);
+        handleAndroid(notification);
 
     } else if (ionic.Platform.isIOS()){
       if ( !duplicateMessage( notification.message_id ) ) {
-
-        notification.deliver_date_readable = new Date( notification.deliver_date * 1000);
-        notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
-        notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + (notification.deliver_date_readable.getMonth() + 1) + "/" + notification.deliver_date_readable.getDate();
-
         handleIOS(notification);
       }
     }
     
   });
 
+  // .fromTemplateUrl() method
+  $ionicPopover.fromTemplateUrl('templates/otherService.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+
+
+  $scope.openOtherService = function($event) {
+    $scope.popover.show($event);
+  };
+  $scope.closeOtherService = function() {
+    $scope.popover.hide();
+  };
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
+  // Execute action on hide popover
+  $scope.$on('popover.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove popover
+  $scope.$on('popover.removed', function() {
+    // Execute action
+  });
+
   // Android Notification Received Handler
   function handleAndroid(notification) {
-      // ** NOTE: ** You could add code for when app is in foreground or not, or coming from coldstart here too
-      //             via the console fields as shown.
-      //console.log("In foreground " + notification.foreground  + " Coldstart " + notification.coldstart);
-      if (notification.event == "registered") {
-          $scope.regId = notification.regid;
-          token_global = notification.regid;
-          if ($scope.receivePush) {
-           storeDeviceToken();
+
+      if ( !duplicateMessage( notification.message_id ) ) {
+
+        if (notification.event == "registered") {
+            $scope.regId = notification.regid;
+            tokenGlobal = notification.regid;
+            if ($scope.receivePush) {
+             storeDeviceToken();
+            }
+        } else if ( notification.event = "message" ) {
+          var payload = notification.payload;
+          if ( !duplicateMessage( payload.message_id ) ) {
+            addMessage(payload);
+            if ( notification.foreground ) {
+              $cordovaDialogs.alert(payload.message, $translate.instant("receivedNoti") );
+            } else {
+              if (payload.message_id){
+                $state.go("tab.message-detail", {messageId: payload.message_id})
+              }
+            }
           }
-      } else if ( notification.event = "message" ) {
-        notification = notification.payload;
-        if ( !duplicateMessage( notification.message_id ) ) {
-          notification.deliver_date_readable = new Date( notification.deliver_date * 1000);
-          notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
-          notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + (notification.deliver_date_readable.getMonth() + 1) + "/" + notification.deliver_date_readable.getDate();
-          //$cordovaDialogs.alert(notification.message, $translate.instant("receivedNoti") );
-          $scope.$apply(function () {
-            $scope.notifications.unshift( notification );
-          })
-          addMessage(notification);
         }
-      } else if ( notification.event == "error" ) {
-        $cordovaDialogs.alert(notification.msg, "Push notification error event");
-      } else {
-        $cordovaDialogs.alert(notification.event, "Push notification handler - Unprocessed Event");
-      }
+      } 
   }
 
   // IOS Notification Received Handler
   function handleIOS(notification) {
-      // The app was already open but we'll still show the alert and sound the tone received this way. If you didn't check
-      // for foreground here it would make a sound twice, once when received in background and upon opening it from clicking
-      // the notification when this code runs (weird).
+
       if (notification.foreground == "1") {
           // Play custom audio if a sound specified.
           /*
@@ -139,11 +174,7 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
           }
           */
 
-          if (notification.body && notification.messageFrom) {
-              $cordovaDialogs.alert(notification.body, notification.messageFrom);
-          }
-          else $cordovaDialogs.alert(notification.alert, $translate.instant("receivedNoti"));
-
+          $cordovaDialogs.alert(notification.alert, $translate.instant("receivedNoti"));
           if (notification.badge) {
               $cordovaPush.setBadgeNumber(notification.badge).then(function (result) {
                   console.log("Set badge success " + result)
@@ -151,30 +182,18 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
                   console.log("Set badge error " + err)
               });
           }
-
-          // Update the notifications
-          $scope.$apply(function () {
-              $scope.notifications.unshift( notification );
-          })
           addMessage(notification);
-      }
-      // Otherwise it was received in the background and reopened from the push notification. Badge is automatically cleared
-      // in this case. You probably wouldn't be displaying anything at this point, this is here to show that you can process
-      // the data in this situation.
-      else {
-
-          addMessage(notification);
+      } else {
+        $state.go("tab.message-detail", {messageId: notification.message_id})
       }
   }
 
-  // Stores the device token in a db using node-pushserver (running locally in this case)
-  //
   // type:  Platform type (ios, android etc)
   function storeDeviceToken() {
       // Create a random userid to store with it
       var config = {
-             app_name: 'AnyTours',
-             app_version: "0.9",
+             app_name: appName,
+             app_version: $window.cordovaAppVersion,
              platform: $cordovaDevice.getPlatform(),
              device_token: $scope.regId,
              device_uid: $cordovaDevice.getUUID(),
@@ -183,12 +202,12 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
              push_badge: 'enabled',
              push_sound: 'enabled',
              push_alert: 'enabled',
-             development: 'sandbox',
+             development: development,
              status: 'active'
              };
       console.log("Post token for registered device with data " + JSON.stringify(config));
 
-      $http.post('http://dreamover-studio.com/push/subscribe.php', JSON.stringify(config))
+      $http.post( subscribePath, JSON.stringify(config))
           .success(function (data, status) {
               console.log("Token stored, device is successfully subscribed to receive push notifications.");
           })
@@ -199,19 +218,23 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
   }
 
   function addMessage (message) {
-    var messages = JSON.parse( $window.localStorage['messages'] || "[]" );
-    messages.push(message)
-    $window.localStorage['latest_message'] = JSON.stringify ( message );
-    $window.localStorage['messages'] = JSON.stringify( messages );
+    // Update the notifications
+    if ( !duplicateMessage(message.message_id) && message.message_id) {
+      $window.localStorage['latest_message'] = JSON.stringify ( message );
+      $window.localStorage['messages'] = JSON.stringify( $scope.savedNotifications );
+      $scope.savedNotifications.unshift( message );
+      $scope.$apply()
+    }
   }
 
   function syncMessage () {
-
     if ( $window.localStorage['latest_message'] ) {
       // timezone problem
       var latest_message = JSON.parse ( $window.localStorage['latest_message'] )
-      deliverDate = latest_message.deliver_date;
+      var deliverDate = latest_message.deliver_date;
+
       syncMessageHelper(deliverDate);
+
     } else {
       syncMessageHelper( localStorage["installedDate"] );
     }
@@ -221,30 +244,27 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
   function syncMessageHelper (deliverDate) {
     var req = {
         method: 'GET',
-        url: "http://dreamover-studio.com/push/syncMessage.php",
+        url: syncMessagePath,
         headers: {
           'dataType': 'json'
         },
         params: {
           delivery_date: deliverDate,
-          development: 'sandbox',
+          development: development,
           sort_order: 'ASC'
         }
       }
 
       $http(req)
       .success(function(data){
-        var temp_data = [];
-        var notification;
+        
         angular.forEach(data.messages, function(notification, key){
-          if ( notification.created > deliverDate && !duplicateMessage( notification.message_id ) ){
+          if ( !duplicateMessage( notification.message_id ) ){
             notification.status = "unread";
             notification.deliver_date_readable = new Date( notification.deliver_date * 1000 );
             //notification.deliver_date_readable.setHours( notification.deliver_date_readable.getHours() - 8 );
             notification.deliver_date_readable = notification.deliver_date_readable.getFullYear() + "/" + ( notification.deliver_date_readable.getMonth() + 1 ) + "/" + notification.deliver_date_readable.getDate();
-            addMessage( notification )
-
-            $scope.notifications.unshift (notification);
+            addMessage( notification ) // Be careful !!! $scope.$apply() will crash in $http !!
           }
         })
       })
@@ -253,19 +273,15 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
       })
   }
 
+  // Avioding duplicated messages
   function duplicateMessage (messageId) {
     if( $window.localStorage['messages'] ){
-      angular.forEach ($window.localStorage['messages'], function(notification, key){
-      if ( notification.message_id == messageId ){
-        return true;
-      } else {
-        return false;
-      }
-    })
+      var result = ( $scope.savedNotifications ).map(function(x) {return x.message_id} ).indexOf(messageId);
+      if (result == -1) return false;
+      else return true;
     } else {
       return false;
     }
-    
   }
 
   $scope.changeStatus = function (key) {
@@ -283,31 +299,23 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
         return true;
       }
     }
-
-    /*
-    angular.forEach( savedNotifications, function(savedNotification, key2){
-      console.log("=======" + key2)
-      if (savedNotification.message_id == $scope.notifications[key].message_id){
-        savedNotifications[key2].status = "";
-        localStorage["messages"] = JSON.stringify(savedNotifications)
-        console.log("Status changed !")
-        return true;
-      }
-    })
-    */
   }
 
-   // Removes the device token from the db via node-pushserver API unsubscribe (running locally in this case).
-  // If you registered the same device with different userids, *ALL* will be removed. (It's recommended to register each
-  // time the app opens which this currently does. However in many cases you will always receive the same device token as
-  // previously so multiple userids will be created with the same token unless you add code to check).
+  $scope.changeSavedStatus = function (messageId) {
+      var elementPos = ($scope.savedNotifications).map(function(x) {return x.message_id}).indexOf(messageId);
+      if ($scope.savedNotifications[elementPos].status == "unread"){
+        $scope.savedNotifications[elementPos].status = "";
+        localStorage["messages"] = JSON.stringify( $scope.savedNotifications );
+      }
+    }
+
   function removeDeviceToken() {
       var config = {
-           app_name: 'AnyTours',
+           app_name: appName,
            device_token: $scope.regId,
            status: 'active'
            }
-      $http.post('http://dreamover-studio.com/push/subscribe.php?action=unsubscribe', JSON.stringify(config))
+      $http.post(subscribePath + '?action=unsubscribe', JSON.stringify(config))
         .success(function (data, status) {
             console.log("Token removed, device is successfully unsubscribed and will not receive push notifications.");
         })
@@ -316,41 +324,30 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
         })
   }
 
-  // Unregister - Unregister your device token from APNS or GCM
-  // Not recommended:  See http://developer.android.com/google/gcm/adv.html#unreg-why
-  //                   and https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/index.html#//apple_ref/occ/instm/UIApplication/unregisterForRemoteNotifications
-  //
-  // ** Instead, just remove the device token from your db and stop sending notifications **
   $scope.unregister = function () {
       console.log("Unregister called");
       removeDeviceToken();
       $scope.registerDisabled=false;
-      //need to define options here, not sure what that needs to be but this is not recommended anyway
-      //        $cordovaPush.unregister(options).then(function(result) {
-      //            console.log("Unregister success " + result);//
-      //        }, function(err) {
-      //            console.log("Unregister error " + err)
-      //        });
   }
 
   /*========== Push Notification Handler ==========*/
   })
 
 
-.controller('MessageDetailCtrl', function($scope, $stateParams, $http, $sce, $window, $ionicLoading, $timeout) {
+.controller('MessageDetailCtrl', function($scope, $stateParams, $http, $sce, $window, $ionicLoading, $translate) {
   
   $ionicLoading.show({
-    template:"<ion-spinner></ion-spinner>",
-    noBackDrop: true,
+    template:"<ion-spinner></ion-spinner><p>" + $translate.instant('textLoading') + "</p>",
+    noBackdrop: true,
     delay: 500,
-    duration: 20000,
     hideOnStateChange: true
+    //duration: 30000
   })
 
   var messageId = $stateParams.messageId;
   var req = {
       method: 'GET',
-      url: "http://dreamover-studio.com/push/message.php?message_id=" + messageId + "&language=" + $window.localStorage["language"],
+      url: getMessagesPath + "?message_id=" + messageId + "&language=" + $window.localStorage["language"],
       headers: {
         'dataType': 'html'
       }
@@ -430,26 +427,23 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
     $translate.use(lang);
   }
 
-  // Stores the device token in a db using node-pushserver (running locally in this case)
-  //
-  // type:  Platform type (ios, android etc)
   function storeDeviceToken() {
       // Create a random userid to store with it
       var config = {
-             app_name: 'AnyTours',
-             app_version: "0.9",
+             app_name: appName,
+             app_version: $window.cordovaAppVersion,
              platform: $cordovaDevice.getPlatform(),
-             device_token: token_global,
+             device_token: tokenGlobal,
              device_uid: $cordovaDevice.getUUID(),
              device_version: $cordovaDevice.getVersion(),
              device_model: $cordovaDevice.getModel(),
              push_badge: 'enabled',
              push_sound: 'enabled',
              push_alert: 'enabled',
-             development: 'sandbox',
+             development: development,
              status: 'active'
              };
-      $http.post('http://dreamover-studio.com/push/subscribe.php', JSON.stringify(config))
+      $http.post( subscribePath, JSON.stringify(config))
           .success(function (data, status) {
               console.log(data);
           })
@@ -459,17 +453,13 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
       );
   }
 
-  // Removes the device token from the db via node-pushserver API unsubscribe (running locally in this case).
-  // If you registered the same device with different userids, *ALL* will be removed. (It's recommended to register each
-  // time the app opens which this currently does. However in many cases you will always receive the same device token as
-  // previously so multiple userids will be created with the same token unless you add code to check).
   function removeDeviceToken() {
       var config = {
-             app_name: 'AnyTours',
-             device_token: token_global,
+             app_name: appName,
+             device_token: tokenGlobal,
              status: 'active'
              }
-      $http.post('http://dreamover-studio.com/push/subscribe.php?action=unsubscribe', JSON.stringify(config))
+      $http.post( subscribePath + '?action=unsubscribe', JSON.stringify(config))
           .success(function (data, status) {
               console.log("Token removed, device is successfully unsubscribed and will not receive push notifications.");
           })

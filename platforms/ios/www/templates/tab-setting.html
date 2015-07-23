@@ -1,4 +1,4 @@
-<ion-view view-title="{{ 'setting' | translate }}">
+<ion-view view-title="<img src='img/viewTitle.png' style='height:60%;vertical-align: middle;' />">
   <ion-content>
     <ion-list class="list">
     <ion-item class="item item-text-wrap" ng-click="showLangPopup()" translate="language">
@@ -8,6 +8,13 @@
     <ion-toggle  ng-model="settings.receivePush" ng-change="pushNotificationChange()">
         <p translate="receivePush" style="font-size:1em">Receive Push</p>
     </ion-toggle>
+
+    <ion-item class="item item-text-wrap" translate="aboutUs">
+    </ion-item>
+
+    <ion-item class="item item-text-wrap" translate="contactUs">
+    </ion-item>
+
     </ion-list>
   </ion-content>
 </ion-view>

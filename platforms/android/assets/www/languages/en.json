@@ -7,5 +7,22 @@
 	"content": "Content",
 	"author": "By Any Tours",
 	"selectLang": "Select a language",
-	"receivedNoti": "Push Notification Received"
+	"receivedNoti": "Push Notification Received",
+	"textLoading": "Loading...",
+	"otherService": "Other Services",
+	"airPlane": "Air Tickets",
+	"hotel": "Hotels",
+	"messageText": "Messages",
+	"discountPackage": "Discount Packages",
+	"cruiseHoliday": "Cruise Holidays",
+	"macauAndGuangdongShortFreedom": "Macau and Guangdong Short Freedoms",
+	"specialTourism": "Special Tourism",
+	"skiPackage": "Ski Packages",
+	"travelInsurance": "Travel Insurance",
+	"trainCard": "Train Cards",
+	"carRenting": "Car Renting And Transportation",
+	"localPackage": "Local Packages",
+	"workingVisa": "Hong Kong Working Visa",
+	"aboutUs": "About Us",
+	"contactUs": "Contact Us"
 }

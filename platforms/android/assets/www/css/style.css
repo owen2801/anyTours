@@ -1,1 +1,6 @@
 /* Empty. Add your own CSS if you like */
+/* Customized loading spinner */
+.loading-container{
+	top: 35% !important;
+	bottom: 35% !important;
+}

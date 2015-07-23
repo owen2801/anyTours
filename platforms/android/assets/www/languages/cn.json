@@ -7,5 +7,22 @@
 	"content": "內容",
 	"author": "來自：天洋旅遊",
 	"selectLang": "選擇語言",
-	"receivedNoti": "收到新信息"
+	"receivedNoti": "收到新信息",
+	"textLoading": "正在載入...",
+	"otherService": "其他服務",
+	"airPlane": "機票",
+	"hotel": "酒店",
+	"messageText": "訊息",
+	"discountPackage": "優惠套票",
+	"cruiseHoliday": "郵輪假期",
+	"macauAndGuangdongShortFreedom": "澳門及廣東自由行",
+	"specialTourism": "特色旅遊",
+	"skiPackage": "滑雪套票",
+	"travelInsurance": "旅遊保險",
+	"trainCard": "火車票證",
+	"carRenting": "租車/接送",
+	"localPackage": "本地團",
+	"workingVisa": "香港工作簽證",
+	"aboutUs": "關於我們",
+	"contactUs": "聯絡我們"
 }

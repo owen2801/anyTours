@@ -1,0 +1,118 @@
+<ion-view view-title="<img src='img/viewTitle.png' style='height:60%;vertical-align: middle;' />">
+  <ion-content>
+
+  <div class="row">
+    <div class="col text-right">
+      <a class="button icon-right ion-navicon button-calm button-outline" ng-click='openOtherService($event)' translate="otherService"></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-50">
+    <div class="col button big-button hotel-button" style="background-color:#127363">
+      <p><i class="icon ion-home"></i></p>
+      <div class="tab-title" translate="hotel"></div>
+    </div>
+  </div>
+   <div class="col col-50">
+    <div class="col big-button button airplane-button" ng-click='openBrowser()' style="background-color:#294d84">
+      <p><i class="icon ion-plane"></i></p>
+      <div class="tab-title" translate="airPlane"></div>
+    </div>
+    </div>
+  </div>
+
+    <div class="row">
+      <div class="col">
+        <h4 translate="messageText" style="margin:0;margin-top:1em"></h4>
+      </div>
+    </div>
+
+    <div class="" collection-repeat="savedNotification in savedNotifications" style="padding-bottom:10px;margin-top:-1em">
+      <div class="card">
+        <ion-item id="divider-{{savedNotification.message_id}}" class="item item-divider {{savedNotification.status}}">
+          <span style="float:left; font-szie:0.8em">{{ (savedNotification.deliver_date * 1000) | date:"dd/MM, yyyy":"UTC"}}</span>
+          <span style="float:right; font-size:0.8em" translate="author">By Any Tours</span>
+        </ion-item>
+          <a class="no-decoration" ng-href="#/tab/message/{{savedNotification.message_id}}" ng-click="changeSavedStatus(savedNotification.message_id)">
+            <div class="item item-text-wrap owen-ion-item">
+                <p style="font-size: 1.2em;line-height:1.2;height: 2.3em;" class="line-champ">{{savedNotification.alert}}</p>
+            </div>
+          </a>
+      </div>
+    </div>
+  </div>
+
+  </ion-content>
+</ion-view>
+<script id="templates/otherService.html" type="text/ng-template">
+  <ion-popover-view>
+    <ion-content>
+        <div class="list">
+          <a class="item" translate="discountPackage"></a>
+          <a class="item" translate="cruiseHoliday"></a>
+          <a class="item" translate="macauAndGuangdongShortFreedom"></a>
+          <a class="item" translate="specialTourism"></a>
+          <a class="item" translate="skiPackage"></a>
+          <a class="item" translate="travelInsurance"></a>
+          <a class="item" translate="trainCard"></a>
+          <a class="item" translate="carRenting"></a>
+          <a class="item" translate="localPackage"></a>
+          <a class="item" translate="workingVisa"></a>
+        </div>
+      </ion-content>
+  </ion-popover-view>
+</script>
+<style type="text/css">
+.unread{
+  background-color: #dff2ff;
+}
+.line-champ{
+  display: block;
+  /* Fallback for non-webkit */
+  display: -webkit-box;
+  /* Fallback for non-webkit */
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+.no-decoration{
+  text-decoration: none;
+}
+.big-button .tab-title{
+  color: #fff
+}
+.big-button .icon:before{
+  padding-top: 1em;
+  padding-bottom: 0.3em;
+  font-size: 4em;
+}
+.big-button.hotel-button .icon:before{
+  color: #89b9b1;
+}
+.big-button.airplane-button .icon:before{
+  color: #94a6c2;
+}
+.big-button .tab-title{
+  margin-top: -1em
+}
+/*
+.hotel-button{
+  background-color: #f15a22;
+  color: #fff;
+  max-width: auto;
+  border-radius: 2px;
+  line-height: inherit;
+}
+.air-button{
+  background-color: #009999;
+  color: #fff;
+  max-width: auto;
+  border-radius: 2px;
+  line-height: inherit
+}
+.hotel-button .icon:before, .air-button .icon:before{
+  font-size: 2em;
+}
+*/
+</style>

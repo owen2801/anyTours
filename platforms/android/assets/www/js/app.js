@@ -8,40 +8,49 @@
 angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
 'starter.controllers', 'starter.services', 'starter.directive' ])
 
-.run(function( $ionicPlatform, $cordovaDialogs, $translate) {
+.run(function( $ionicPlatform, $cordovaDialogs, $translate, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    var today = new Date();
-    var localStorageMessages = JSON.parse( localStorage["messages"] )
-    var todayTimestamp = Math.round(today.getTime() / 1000);
-    var expired = 0;
-    var messagesLength = localStorageMessages.length
-    for (var i = 0; i < messagesLength; i++){
-      expired = localStorageMessages[i].expire_date
-      if ( expired < todayTimestamp ) {
-        localStorageMessages.splice(i, 1)
-        console.log("Removed message " + i)
-        i--;
-        messagesLength--;
-      }
+    $rootScope.companyWebADDR = companyWebADDR;
+    if (ionic.Platform.isAndroid()){
+      $rootScope.androidiFrame = "show";
+      $rootScope.iosBrowser = "hide";
+    } else {
+      $rootScope.androidiFrame = "hide";
+      $rootScope.iosBrowser = "show";
     }
-  
-    if (expired) {
-      localStorage['messages'] = JSON.stringify( localStorageMessages )
+    cordova.getAppVersion(function (version) {
+      window.cordovaAppVersion = version;
+    });
+    var today = new Date();
+    if (localStorage["messages"]){
+      var localStorageMessages = JSON.parse( localStorage["messages"] )
+      var todayTimestamp = Math.round(today.getTime() / 1000);
+      var expired = 0;
+      var messagesLength = localStorageMessages.length
+      for (var i = 0; i < messagesLength; i++){
+        expired = localStorageMessages[i].expire_date
+        if ( expired < todayTimestamp ) {
+          localStorageMessages.splice(i, 1)
+          console.log("Removed message " + i)
+          i--;
+          messagesLength--;
+        }
+      }
+      if (expired) {
+        localStorage['messages'] = JSON.stringify( localStorageMessages )
+      }
     }
     
 
-    if ( !localStorage["installedDate"] ) {
-      //today.setDate(today.getDate() - 10)
-      localStorage["installedDate"] = today / 1000; 
-    }
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleLightContent();
+      //StatusBar.styleLightContent();
+      StatusBar.styleDefault();
     }
 
     if ( !localStorage["language"] ) {
@@ -64,7 +73,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider) {
+.config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $sceDelegateProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -78,6 +87,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
     templateUrl: "templates/tabs.html",
     controller: "TabCtrl"
   })
+  .state('tab.home', {
+      url: '/home',
+      views: {
+        'tab-home': {
+          templateUrl: 'templates/tab-home.html'
+        }
+      }
+    })
   .state('tab.message', {
       url: '/message',
       views: {
@@ -106,9 +123,22 @@ angular.module('starter', ['ionic', 'ngCordova', 'pascalprecht.translate',
       }
     }
   })
+  /*
+  .state('tab.web', {
+    url: '/web',
+    views: {
+      'tab-web': {
+        templateUrl: 'templates/tab-web.html'
+      }
+    }
+  })
+*/
   ;
   // Use Native Scroll
   //if(!ionic.Platform.isIOS())$ionicConfigProvider.scrolling.jsScrolling(false);
+
+  // Whitelist a website
+  //$sceDelegateProvider.resourceUrlWhitelist(['self', companyWebADDR]);
 
   // if none of the above states are matched, use this as the fallback
   $translateProvider.useSanitizeValueStrategy('escaped');
