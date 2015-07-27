@@ -47,17 +47,8 @@
 <script id="templates/otherService.html" type="text/ng-template">
   <ion-popover-view>
     <ion-content>
-        <div class="list">
-          <a class="item" translate="discountPackage"></a>
-          <a class="item" translate="cruiseHoliday"></a>
-          <a class="item" translate="macauAndGuangdongShortFreedom"></a>
-          <a class="item" translate="specialTourism"></a>
-          <a class="item" translate="skiPackage"></a>
-          <a class="item" translate="travelInsurance"></a>
-          <a class="item" translate="trainCard"></a>
-          <a class="item" translate="carRenting"></a>
-          <a class="item" translate="localPackage"></a>
-          <a class="item" translate="workingVisa"></a>
+        <div class="list" ng-repeat="dropMenu in dropMenus">
+          <a class="item" href="{{dropMenu.link}}">{{dropMenu.name}}</a>
         </div>
       </ion-content>
   </ion-popover-view>
@@ -83,8 +74,8 @@
   color: #fff
 }
 .big-button .icon:before{
-  padding-top: 1em;
-  padding-bottom: 0.3em;
+  padding-top: 25px;
+  padding-bottom: 10px;
   font-size: 4em;
 }
 .big-button.hotel-button .icon:before{

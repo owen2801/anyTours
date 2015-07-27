@@ -3,6 +3,7 @@ var companyWebADDR = "http://www.ec-solutions.com.hk";
 var getMessagesPath = "http://anytours.chuyan.hk/push/message.php";
 var subscribePath = "http://anytours.chuyan.hk/push/subscribe.php";
 var syncMessagePath = "http://anytours.chuyan.hk/push/syncMessage.php";
+var dropMenuPath = "http://anytours.chuyan.hk/push/dropMenu.json";
 var GCMId = "862098836172";
 var appName = "AnyTours";
 var development = "sandbox";
