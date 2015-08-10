@@ -16,6 +16,15 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
 .controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaDevice, $window, $translate, $ionicPopover, ionPlatform, $state, $rootScope) {
 
+  $scope.openBrowser = function (webADDR) {
+    if(ionic.Platform.isIOS()){
+      window.open(webADDR, "_blank", "location=no,toolbar=yes,toolbarposition=bottom")
+    } else {
+      window.open(webADDR, "_blank", "location=yes")
+    }
+    
+  }
+
   $rootScope.$on('$translateChangeSuccess', function (event, a) {
       $scope.dropMenus = getDropMenus($scope.dropMenus, a.language);
   });

@@ -47,8 +47,8 @@
 <script id="templates/otherService.html" type="text/ng-template">
   <ion-popover-view>
     <ion-content>
-        <div class="list" ng-repeat="dropMenu in dropMenus">
-          <a class="item" href="{{dropMenu.link}}">{{dropMenu.name}}</a>
+        <div class="list">
+          <div class="item" ng-repeat="dropMenu in dropMenus" ng-click="openBrowser('{{dropMenu.link}}')">{{dropMenu.name}}</div>
         </div>
       </ion-content>
   </ion-popover-view>
