@@ -14,7 +14,31 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
 
 .controller('HomeCtrl', function($scope) {})
 
-.controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaDevice, $window, $translate, $ionicPopover, ionPlatform, $state) {
+.controller('MessageCtrl', function($scope, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $http, $cordovaDevice, $window, $translate, $ionicPopover, ionPlatform, $state, $rootScope) {
+
+  $scope.openBrowser = function (webADDR) {
+    if(ionic.Platform.isIOS()){
+      window.open(webADDR, "_blank", "location=no,toolbar=yes,toolbarposition=bottom")
+    } else {
+      window.open(webADDR, "_blank", "location=yes")
+    }
+    
+  }
+
+  $rootScope.$on('$translateChangeSuccess', function (event, a) {
+      $scope.dropMenus = getDropMenus($scope.dropMenus, a.language);
+  });
+
+  //Dropdown Menus
+  $http.get( dropMenuPath )
+      .success(function (data, status) {
+          $scope.dropMenus = getDropMenus(data, $window.localStorage['language']);
+          
+      })
+      .error(function (data, status) {
+          console.log("Error storing device token." + data + " " + status)
+      }
+  );
 
   //check Installed date
   if ( localStorage["installedDate"]  ) { 
@@ -134,6 +158,21 @@ angular.module('starter.controllers', ['pasvaz.bindonce', 'ngSanitize', 'react']
   $scope.$on('popover.removed', function() {
     // Execute action
   });
+
+  // Function for getting the drop down menu
+  function getDropMenus(menus, language){
+    //Dropdown Menus
+    var tempMenus=[];
+    angular.forEach(menus, function(menu, key){
+      if(language == 'cn'){
+        menu.name = menu.name_cn
+      } else {
+        menu.name = menu.name_en
+      }
+      tempMenus.push(menu);
+    })
+    return tempMenus;
+  }
 
   // Android Notification Received Handler
   function handleAndroid(notification) {

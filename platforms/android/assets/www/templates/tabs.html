@@ -3,18 +3,13 @@ Create tabs with an icon and label, using the tabs-positive style.
 Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
-<ion-tabs class="tabs-icon-top tabs-color-calm">
-  
-  <!-- Chats Tab -->
-  <ion-tab title="{{ 'home' | translate }}" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/home" class="hide" >
-    <ion-nav-view name="tab-home"></ion-nav-view>
-  </ion-tab>
+<ion-tabs id="tab-panel" class="tabs-icon-top tabs-color-calm">
 
   <a class="tab-item" ng-click='openBrowser()' >
     <i class="icon ion-ios-home-outline"></i>
-    <span class="tab-title" translate="home">Home</span>
+    <b class="tab-title" translate="home">Home</b>
   </a>
-
+  
   <!-- Chats Tab -->
   <ion-tab title="{{ 'notification' | translate }}" icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble" href="#/tab/message">
     <ion-nav-view name="tab-message"></ion-nav-view>
@@ -26,3 +21,8 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 </ion-tabs>
 
+<style type="text/css">
+#tab-panel span.tab-title{
+    font-weight: bold;
+}
+</style>

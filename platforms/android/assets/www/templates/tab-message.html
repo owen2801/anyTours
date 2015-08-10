@@ -2,8 +2,8 @@
   <ion-content>
 
   <div class="row">
-    <div class="col text-right">
-      <a class="button icon-right ion-navicon button-calm button-outline" ng-click='openOtherService($event)' translate="otherService"></a>
+    <div class="col text-right col-100">
+      <a id="other-button" class="button icon-right ion-navicon button-calm button-outline" ng-click='openOtherService($event)' translate="otherService"></a>
     </div>
   </div>
   <div class="row">
@@ -48,21 +48,16 @@
   <ion-popover-view>
     <ion-content>
         <div class="list">
-          <a class="item" translate="discountPackage"></a>
-          <a class="item" translate="cruiseHoliday"></a>
-          <a class="item" translate="macauAndGuangdongShortFreedom"></a>
-          <a class="item" translate="specialTourism"></a>
-          <a class="item" translate="skiPackage"></a>
-          <a class="item" translate="travelInsurance"></a>
-          <a class="item" translate="trainCard"></a>
-          <a class="item" translate="carRenting"></a>
-          <a class="item" translate="localPackage"></a>
-          <a class="item" translate="workingVisa"></a>
+          <div class="item" ng-repeat="dropMenu in dropMenus" ng-click="openBrowser('{{dropMenu.link}}')">{{dropMenu.name}}</div>
         </div>
       </ion-content>
   </ion-popover-view>
 </script>
 <style type="text/css">
+#other-button{
+  min-height: auto !important;
+  white-space: nowrap !important;
+}
 .unread{
   background-color: #dff2ff;
 }
